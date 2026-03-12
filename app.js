@@ -2,9 +2,9 @@ import {
   getQuestionOptions,
   getQuestionById,
   getVisibleSections,
-} from './lib/questionnaire.js?v=20260310';
-import { clearDraft, createEmptyState, loadDraft, saveDraft } from './lib/storage.js?v=20260310';
-import { transcribeAudioBlob } from './lib/transcription.js?v=20260310';
+} from './lib/questionnaire.js?v=20260312';
+import { clearDraft, createEmptyState, loadDraft, saveDraft } from './lib/storage.js?v=20260312';
+import { transcribeAudioBlob } from './lib/transcription.js?v=20260312';
 
 // ─── SVG icon strings ────────────────────────────────────────────────────────
 const SVG_MIC = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>`;
@@ -56,7 +56,9 @@ init();
 function init() {
   elements.prevButton.addEventListener('click', handlePreviousStep);
   elements.nextButton.addEventListener('click', handleNextStep);
-  elements.exportButton.addEventListener('click', handleExportJson);
+  if (elements.exportButton) {
+    elements.exportButton.addEventListener('click', handleExportJson);
+  }
   elements.resetButton.addEventListener('click', handleReset);
   document.addEventListener('keydown', handleKeydown);
 
@@ -950,7 +952,9 @@ function renderFooterActions() {
 
   elements.prevButton.disabled   = state.currentStep === 0 || submitting;
   elements.resetButton.disabled  = submitting;
-  elements.exportButton.disabled = submitting;
+  if (elements.exportButton) {
+    elements.exportButton.disabled = submitting;
+  }
 
   if (isReviewStep) {
     elements.nextButton.innerHTML = submitting
